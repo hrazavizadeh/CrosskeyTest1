@@ -1,0 +1,8 @@
+E:\Crosskey\CrosskeyExam\CrosskeyExam\bin\Debug\CrosskeyExam.exe
+E:\Crosskey\CrosskeyExam\CrosskeyExam\bin\Debug\CrosskeyExam.pdb
+E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.Properties.Resources.resources
+E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.csproj.GenerateResource.Cache
+E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.exe
+E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.pdb
+E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.frmMain.resources
+E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.csprojResolveAssemblyReference.cache
