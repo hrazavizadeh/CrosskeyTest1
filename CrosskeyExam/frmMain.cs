@@ -24,104 +24,128 @@ namespace CrosskeyExam
             
         }
 
-
-        private void FillGridView(ArrayList alist,DataGridView dgv)
+        // fill all records available  in an arraylist to the datagridview
+        private void FillGridView(ArrayList customerlist,DataGridView dgv)
         {
-            DataGridViewRow row;
-            foreach (customerLoan cl in alist)
+            DataGridViewRow dgvRow;
+            foreach (customerLoan customer in customerlist)
             {
-                row = new DataGridViewRow();
-                row.CreateCells(dgv);
-                row.Cells[0].Value = cl.Name;
-                row.Cells[1].Value = cl.TotalLoan.ToString("###,###.##");
-                row.Cells[2].Value = cl.Interest;
-                row.Cells[3].Value = cl.Years;
-                row.Cells[4].Value = cl.MonthlyPay.ToString("###,###.##");
-                dgv.Rows.Add(row);
+                dgvRow = new DataGridViewRow();
+                dgvRow.CreateCells(dgv);
+                dgvRow.Cells[0].Value = customer.Name;
+                dgvRow.Cells[1].Value = customer.TotalLoan.ToString("###,###.##");
+                dgvRow.Cells[2].Value = customer.Interest;
+                dgvRow.Cells[3].Value = customer.Years;
+                dgvRow.Cells[4].Value = customer.MonthlyPay.ToString("###,###.##");
+                dgv.Rows.Add(dgvRow);
             }            
             
         }
 
 
+
+        // Set DataGridView Column's Header from first Line of Imported file
         private void GridSettings(String colimnsHeaderText)
         {
             string[] title;
-            title = colimnsHeaderText.Split(',');
+            int counter = 0;
+
+            title = colimnsHeaderText.Split(',');            
             dgvCustomer.ColumnCount = title.Length+1;
-            int i = 0;
+            
             foreach (string t in title)
             {
-                dgvCustomer.Columns[i].HeaderText = title[i];
-                //dgvCustomer.Columns[i].Width = 125;
-                //dgvCustomer.Columns[i].ReadOnly = true;                
-                i++;
+                dgvCustomer.Columns[counter].HeaderText = title[counter];               
+                counter++;
             }
-
-            dgvCustomer.Columns[dgvCustomer.ColumnCount - 1].HeaderText = "Monthly Payment";
             
+            dgvCustomer.Columns[dgvCustomer.ColumnCount - 1].HeaderText = "Monthly Payment";
+                        
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+
+
+        private void mnuImport_Click(object sender, EventArgs e)
         {
             try
             {
                 ArrayList customerList = new ArrayList();
-                string fpath = "";
-                string rline = "";
-                bool kot = false;
-                int loc = 0;
-                int sindex = 0;
-                int ifield = 0;
-                string[] field;
-                FileStream fs;
-                StreamReader sr;
+                string filePath = "";
+                string readline = "";
+                bool isquotation = false;
+                int pointer = 0;
+                int startIndex = 0;
+                int fieldIndex = 0;
+                string[] recordFields;
+                FileStream fileStream;
+                StreamReader streamReader;
+
                 dgvCustomer.Rows.Clear();
                 openFileDialog1.ShowDialog();
-                fpath = openFileDialog1.FileName;
-                if (File.Exists(fpath) && Path.GetExtension(fpath) == ".txt")
+                filePath = openFileDialog1.FileName;
+                
+                //Validating file existence  and file type of selected file
+                if (File.Exists(filePath) && Path.GetExtension(filePath) == ".txt")
                 {
-                    fs = new FileStream(fpath, FileMode.Open, FileAccess.Read);
-                    sr = new StreamReader(fs);
-                    sr.BaseStream.Seek(0, SeekOrigin.Begin);
-                    rline = sr.ReadLine();
-                    if (!rline.Substring(0, 9).Equals("Customer,"))
+                    //Open file as Read
+                    fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                    streamReader = new StreamReader(fileStream);
+                    //Set pointer to read from start of file
+                    streamReader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                    //read the first line and check the file contain valid data
+                    readline = streamReader.ReadLine();
+                    if (!readline.Substring(0, 9).Equals("Customer,"))
                         throw new System.ArgumentException("Wrong File Selected!");
-                    GridSettings(rline);
-                    rline = sr.ReadLine();
-                    while (rline != "." && rline.Length > 0)
+                    
+                    //if selected file is valis, set the gridview headers
+                    GridSettings(readline);
+                    
+                    //start reading records from file till Last Record defined by "."
+                    readline = streamReader.ReadLine();
+                    while (readline != "." )
                     {
-
-                        sindex = 0;
-                        ifield = 0;
-                        field = new string[4];
-                        kot = false;
-                        loc = 0;
-                        while (loc < rline.Length)
+                        //if record is empty, escaped to next record
+                        if (readline.Length == 0)
                         {
+                            readline = streamReader.ReadLine();
+                            continue;
+                        }
 
-                            while (loc < rline.Length && (kot || rline[loc] != ','))
+                        startIndex = 0;
+                        fieldIndex = 0;
+                        recordFields = new string[4];
+                        isquotation = false;
+                        pointer = 0;
+                        //serch till end of record
+                        while (pointer < readline.Length)
+                        {
+                            //check every character in record until finding ','
+                            //if before finding ',' it was a '"' in record, ignore the ',' until you find another '"'
+                            while (pointer < readline.Length && (isquotation || readline[pointer] != ','))
                             {
-                                if (rline[loc] == '"') kot = !kot;
-                                loc++;
+                                //if current character is '"', change value of isquotation
+                                if (readline[pointer] == '"') isquotation = !isquotation;
+                                pointer++;
 
                             }
-                            field[ifield] = rline.Substring(sindex, loc - sindex);
-                            loc++;
-                            ifield++;
-                            sindex = loc;
+                            //extratct the found field by substring from record
+                            recordFields[fieldIndex] = readline.Substring(startIndex, pointer - startIndex);
+                            pointer++;
+                            fieldIndex++;
+                            //Set start Index to position of first character of next field
+                            startIndex = pointer;
                         }
-                        rline = sr.ReadLine();
-                        customerList.Add(new customerLoan(field[0].Replace("\"", ""), double.Parse(field[1]), double.Parse(field[2]), int.Parse(field[3])));
+                        readline = streamReader.ReadLine();
+                        //create a new object of CustomerLoan from extracted fields and add to an arraylist
+                        customerList.Add(new customerLoan(recordFields[0].Replace("\"", ""), double.Parse(recordFields[1]), double.Parse(recordFields[2]), int.Parse(recordFields[3])));
                     }
 
-                    sr.Close();
-                    fs.Close();
+                    streamReader.Close();
+                    fileStream.Close();
 
+                    //fill all records in arraylist to datagrid
                     FillGridView(customerList, dgvCustomer);
 
                 }
@@ -134,10 +158,15 @@ namespace CrosskeyExam
             }
         }
 
-        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+
+
+
+        //Print all data in datagrid by using DGVPrinter Class
+        private void mnuPrint_Click(object sender, EventArgs e)
         {
             try
             {
+                //check data available for print
                 if (dgvCustomer.Rows.Count == 0)
                     MessageBox.Show("No data to print!");
                 else
@@ -161,16 +190,16 @@ namespace CrosskeyExam
         }
 
 
-
-
-
-        private void clearGridToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void mnuClearGrid_Click(object sender, EventArgs e)
         {
             dgvCustomer.Rows.Clear();
         }
 
 
-
+        private void mnuExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
 
     }
 }
