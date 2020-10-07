@@ -1,0 +1,12 @@
+Run Path:
+	\bin\Debug\CrosskeyExam.exe
+
+Language:
+	C# .Net
+
+IDE:
+	Visual Studio 2010
+	
+
+.Net framwork:
+	3.5
