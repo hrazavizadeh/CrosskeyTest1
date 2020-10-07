@@ -39,7 +39,6 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearGridToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomer)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -48,14 +47,19 @@
             // 
             this.dgvCustomer.AllowUserToAddRows = false;
             this.dgvCustomer.AllowUserToDeleteRows = false;
+            this.dgvCustomer.AllowUserToResizeRows = false;
+            this.dgvCustomer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvCustomer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCustomer.Cursor = System.Windows.Forms.Cursors.Hand;
             this.dgvCustomer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCustomer.Location = new System.Drawing.Point(0, 24);
             this.dgvCustomer.Name = "dgvCustomer";
             this.dgvCustomer.ReadOnly = true;
+            this.dgvCustomer.RowHeadersVisible = false;
+            this.dgvCustomer.RowHeadersWidth = 30;
+            this.dgvCustomer.RowTemplate.Height = 42;
             this.dgvCustomer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCustomer.Size = new System.Drawing.Size(648, 422);
+            this.dgvCustomer.Size = new System.Drawing.Size(497, 422);
             this.dgvCustomer.TabIndex = 1;
             // 
             // openFileDialog1
@@ -69,7 +73,7 @@
             this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(648, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(497, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -125,15 +129,11 @@
             this.clearGridToolStripMenuItem1.Text = "&Clear Grid";
             this.clearGridToolStripMenuItem1.Click += new System.EventHandler(this.clearGridToolStripMenuItem1_Click);
             // 
-            // printDocument1
-            // 
-            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 446);
+            this.ClientSize = new System.Drawing.Size(497, 446);
             this.Controls.Add(this.dgvCustomer);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -164,7 +164,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearGridToolStripMenuItem1;
-        private System.Drawing.Printing.PrintDocument printDocument1;
     }
 }
 

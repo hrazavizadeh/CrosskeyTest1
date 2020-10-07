@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections;
+using DGVPrinterHelper;
 
 namespace CrosskeyExam
 {
@@ -37,7 +38,7 @@ namespace CrosskeyExam
                 row.Cells[3].Value = cl.Years;
                 row.Cells[4].Value = cl.MonthlyPay.ToString("###,###.##");
                 dgv.Rows.Add(row);
-            }
+            }            
             
         }
 
@@ -51,8 +52,8 @@ namespace CrosskeyExam
             foreach (string t in title)
             {
                 dgvCustomer.Columns[i].HeaderText = title[i];
-                dgvCustomer.Columns[i].Width = 125;
-                dgvCustomer.Columns[i].ReadOnly = true;
+                //dgvCustomer.Columns[i].Width = 125;
+                //dgvCustomer.Columns[i].ReadOnly = true;                
                 i++;
             }
 
@@ -136,7 +137,21 @@ namespace CrosskeyExam
         {
             try
             {
-                printDocument1.Print();  
+                if (dgvCustomer.Rows.Count == 0)
+                    MessageBox.Show("No data to print!");
+                else
+                {
+                    DGVPrinter printer = new DGVPrinter();
+                    printer.Title = "Crosskey Customer Report";
+                    printer.TitleColor = Color.DarkGreen;
+                    printer.SubTitle = string.Format("Date: {0}", DateTime.Now);
+                    printer.SubTitleSpacing = 20;
+                    printer.PageNumbers = true;
+                    printer.PageNumberInHeader = false;
+                    printer.PorportionalColumns = true;
+                    printer.HeaderCellAlignment = StringAlignment.Center;
+                    printer.PrintDataGridView(dgvCustomer);
+                }
             }
             catch (Exception ex)
             {
@@ -153,11 +168,8 @@ namespace CrosskeyExam
             dgvCustomer.Rows.Clear();
         }
 
-        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
-            Bitmap bm = new Bitmap(this.dgvCustomer.Width, this.dgvCustomer.Height);
-            dgvCustomer.DrawToBitmap(bm, new Rectangle(0, 0, this.dgvCustomer.Width, this.dgvCustomer.Height));
-            e.Graphics.DrawImage(bm, 0, 0);
-        }
+
+
+
     }
 }
