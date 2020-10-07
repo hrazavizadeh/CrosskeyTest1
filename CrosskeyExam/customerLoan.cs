@@ -20,10 +20,10 @@ namespace CrosskeyExam
             this.totalLoan = TotalLoan;
             this.interest = Interest;
             this.years = Years;
-            monthlyPay = (TotalLoan * (Interest /100)* Pow(1 + (Interest/100), Years*12)) / (Pow(1 + (Interest/100), (Years*12)) - 1);
+            monthlyPay = (TotalLoan * (Interest /100)* HPow(1 + (Interest/100), Years*12)) / (HPow(1 + (Interest/100), (Years*12)) - 1);
         }
 
-        private double Pow(double p1,int p2)
+        private double HPow(double p1,int p2)
         {
             double rp = p1;
             for (int i = 1; i < p2; i++)
