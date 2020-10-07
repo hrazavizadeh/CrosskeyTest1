@@ -5,3 +5,4 @@ E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.Properties.Resource
 E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.csproj.GenerateResource.Cache
 E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.exe
 E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.pdb
+E:\Crosskey\CrosskeyExam\CrosskeyExam\obj\Debug\CrosskeyExam.csprojResolveAssemblyReference.cache

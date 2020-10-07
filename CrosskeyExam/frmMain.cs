@@ -102,9 +102,8 @@ namespace CrosskeyExam
                     //if selected file is valis, set the gridview headers
                     GridSettings(readline);
                     
-                    //start reading records from file till Last Record defined by "."
-                    readline = streamReader.ReadLine();
-                    while (readline != "." )
+                    //start reading records from file till Last Record defined by "."                    
+                    while ((readline = streamReader.ReadLine())!=null && readline != "." )
                     {
                         //if record is empty, escaped to next record
                         if (readline.Length == 0)
@@ -121,8 +120,8 @@ namespace CrosskeyExam
                         //serch till end of record
                         while (pointer < readline.Length)
                         {
-                            //check every character in record until finding ','
-                            //if before finding ',' it was a '"' in record, ignore the ',' until you find another '"'
+                            /*check every character in record until finding ','
+                            if before finding ',' it was a '"' in record, ignore the ',' until you find another '"'*/
                             while (pointer < readline.Length && (isquotation || readline[pointer] != ','))
                             {
                                 //if current character is '"', change value of isquotation
@@ -137,7 +136,7 @@ namespace CrosskeyExam
                             //Set start Index to position of first character of next field
                             startIndex = pointer;
                         }
-                        readline = streamReader.ReadLine();
+                        
                         //create a new object of CustomerLoan from extracted fields and add to an arraylist
                         customerList.Add(new customerLoan(recordFields[0].Replace("\"", ""), double.Parse(recordFields[1]), double.Parse(recordFields[2]), int.Parse(recordFields[3])));
                     }
