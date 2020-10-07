@@ -58,8 +58,7 @@ namespace CrosskeyExam
             }
 
             dgvCustomer.Columns[dgvCustomer.ColumnCount - 1].HeaderText = "Monthly Payment";
-            dgvCustomer.Columns[dgvCustomer.ColumnCount - 1].Width = 100;
-            dgvCustomer.Columns[dgvCustomer.ColumnCount - 1].ReadOnly = true;
+            
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -90,6 +89,8 @@ namespace CrosskeyExam
                     sr = new StreamReader(fs);
                     sr.BaseStream.Seek(0, SeekOrigin.Begin);
                     rline = sr.ReadLine();
+                    if (!rline.Substring(0, 9).Equals("Customer,"))
+                        throw new System.ArgumentException("Wrong File Selected!");
                     GridSettings(rline);
                     rline = sr.ReadLine();
                     while (rline != "." && rline.Length > 0)
@@ -125,11 +126,11 @@ namespace CrosskeyExam
 
                 }
                 else
-                    MessageBox.Show("Wrong File Selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw new System.ArgumentException("Selected wrong File Type!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message,"Crosskey",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
 
