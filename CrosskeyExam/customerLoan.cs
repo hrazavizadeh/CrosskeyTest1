@@ -28,10 +28,10 @@ namespace CrosskeyExam
         //Create Power Method with loop
         private double HPow(double number1, int number2)
         {
-            double returnPower = number1;
+            double powerResult = number1;
             for (int counter = 1; counter < number2; counter++)
-                returnPower *= number1;
-            return returnPower;
+                powerResult *= number1;
+            return powerResult;
         }
 
 
